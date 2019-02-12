@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BankSimulator.Infrastructure;
+using BankSimulator.Model;
+using System;
 
 namespace BankSimulator
 {
@@ -6,7 +8,12 @@ namespace BankSimulator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            StoreContext storeContext = new StoreContext();
+
+            LoginSystem _loginSystem = new LoginSystem(storeContext);
+            _loginSystem.HelloMesseges();
+
+            Console.ReadKey();
         }
     }
 }
