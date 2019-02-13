@@ -8,11 +8,8 @@ namespace BankSimulator.Infrastructure
     class LoginSystem
     {
         private StoreContext _storeContext;
-
-        public LoginSystem(StoreContext storeContext)
-        {
-            _storeContext = storeContext;
-        }
+        
+        public bool userIsLogged = false;
 
         private string FName;
         private string SName;
@@ -21,35 +18,30 @@ namespace BankSimulator.Infrastructure
         private string password;
         private int id;
 
+        public LoginSystem(StoreContext storeContext)
+        {
+            _storeContext = storeContext;
+        }
+
         public void HelloMesseges()
         {
+            Console.Clear();
+
             Console.WriteLine("Hello in BankSimulator!");
             Console.WriteLine("1. Log In");
             Console.WriteLine("2. Register");
-            Console.WriteLine("3. How to setup Bank Simulator");
             int choose = Convert.ToInt32(Console.ReadLine());
 
             if (choose == 1)
             {
                 LogIn();
+                if (UserInformation.rememberMyId != 0)
+                    userIsLogged = true;
             }
             else if (choose == 2)
             {
                 Register();
             }
-            else if (choose == 3)
-            {
-                HowToSetup();
-            }
-            else
-            {
-
-            }
-        }
-
-        private void HowToSetup()
-        {
-            throw new NotImplementedException();
         }
 
         private void LogIn()
@@ -63,12 +55,10 @@ namespace BankSimulator.Infrastructure
             {
                 if(id == accounts.IdUser && password == accounts.Password)
                 {
-                    Console.WriteLine("Istnieje taki rekord w bazie danych!!");
+                    Console.Clear();
+                    Console.WriteLine("Welcome in bank");
+                    UserInformation.rememberMyId = id;
                     break;
-                }
-                else
-                {
-                    Console.WriteLine("This is a bait :)");
                 }
             }
         }
@@ -90,5 +80,10 @@ namespace BankSimulator.Infrastructure
             _storeContext.Add(account);
             _storeContext.SaveChanges();
         }
+    }
+
+    public class UserInformation
+    {
+        public static int rememberMyId = 0;
     }
 }
