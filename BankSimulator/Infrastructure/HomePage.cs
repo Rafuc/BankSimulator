@@ -23,7 +23,7 @@ namespace BankSimulator.Infrastructure
             Console.WriteLine("What you want to do?");
             Console.WriteLine("1.Do a transfer");
             Console.WriteLine("2.See my transactions");
-            Console.WriteLine("3.Currently cash");
+            Console.WriteLine("3.User Information");
             Console.WriteLine("4.Deposit money");
             Console.WriteLine("5.Withdraw money");
             Console.Write("Your choose: ");

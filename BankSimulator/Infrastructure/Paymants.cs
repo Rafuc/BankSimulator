@@ -20,6 +20,10 @@ namespace BankSimulator.Infrastructure
             {
                 if(UserInformation.rememberMyId == account.IdUser)
                 {
+                    Console.WriteLine($"Your Name:{account.FirstName} {account.SecondName}");
+                    Console.WriteLine($"Birthday:{account.BirthDayDate}");
+                    Console.WriteLine($"Phone Number:{account.PhoneNumber}");
+                    Console.WriteLine($"Addres:{account.LiveAddres}");
                     Console.WriteLine($"Your cash: {account.Cash} PLN");
                     Console.ReadKey();
                 }
