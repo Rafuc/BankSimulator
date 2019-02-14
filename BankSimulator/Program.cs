@@ -26,6 +26,18 @@ namespace BankSimulator
                 {
                     _mainFuctions.Transfer();
                 }
+                else if(_mainFuctions.ReturnChoose() == 3)
+                {
+                    _mainFuctions.CurrentlyCash();
+                }
+                else if(_mainFuctions.ReturnChoose() == 4)
+                {
+                    _mainFuctions.DepositMoney();
+                }
+                else if(_mainFuctions.ReturnChoose() == 5)
+                {
+                    _mainFuctions.WithdrawMoney();
+                }
             }
 
             Console.ReadKey();

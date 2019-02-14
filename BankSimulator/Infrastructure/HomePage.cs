@@ -28,6 +28,7 @@ namespace BankSimulator.Infrastructure
             Console.WriteLine("5.Withdraw money");
             Console.Write("Your choose: ");
             _actionChoose = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
         }
 
         public int ReturnChoose()
