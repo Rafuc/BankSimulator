@@ -11,15 +11,43 @@ namespace BankSimulator.Infrastructure
         private int whoShouldReciveMoney;
         private decimal moneyToSend;
         private bool youCanSend = false;
+        private decimal moneyToDeposit;
+        private decimal moneyToWithdraw;
 
         public void CurrentlyCash()
         {
-            throw new NotImplementedException();
+            foreach(var account in _storeContext.Account)
+            {
+                if(UserInformation.rememberMyId == account.IdUser)
+                {
+                    Console.WriteLine($"Your cash: {account.Cash} PLN");
+                    Console.ReadKey();
+                }
+            }
         }
 
         public void DepositMoney()
         {
-            throw new NotImplementedException();
+            Console.Write("How much money you want to deposit: ");
+            moneyToDeposit = Convert.ToDecimal(Console.ReadLine());
+            if (moneyToDeposit > 0)
+            {
+                foreach (var account in _storeContext.Account)
+                {
+                    if (UserInformation.rememberMyId == account.IdUser)
+                    {
+                        account.Cash += moneyToDeposit;
+                    }
+                }
+                Console.WriteLine("Deposit succesfully");
+                _storeContext.SaveChanges();
+            }
+            else
+            {
+                Console.WriteLine($"You cant deposit {moneyToDeposit}"); 
+            }
+            Console.ReadKey();
+            Console.Clear();
         }
 
         public void MyTransactions()
@@ -86,7 +114,24 @@ namespace BankSimulator.Infrastructure
 
         public void WithdrawMoney()
         {
-            throw new NotImplementedException();
+            Console.Write("How much money withdraw you want: ");
+            moneyToWithdraw = Convert.ToDecimal(Console.ReadLine());
+            if (moneyToWithdraw > 0)
+            {
+                foreach (var account in _storeContext.Account)
+                {
+                    account.Cash -= moneyToWithdraw;
+                }
+                _storeContext.SaveChanges();
+                Console.WriteLine($"Get out of the depository {moneyToWithdraw} PLN");
+            }
+            else
+            {
+                Console.WriteLine("You can't withdraw");
+            }
+            Console.ReadKey();
+            Console.Clear();
+            
         }
 
         public void SetStoreContext(StoreContext storeContext) =>  _storeContext = storeContext;
