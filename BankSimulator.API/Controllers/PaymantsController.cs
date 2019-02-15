@@ -27,6 +27,7 @@ namespace BankSimulator.API.Controllers
             string sendingUser = sendingData.sendingUser;
 
             bool userExist = await _repo.UserExists(recivingUser);
+
             if (!userExist)
                 BadRequest("This user don't exists");
 
@@ -40,7 +41,9 @@ namespace BankSimulator.API.Controllers
         {
           string UserLogin = CreditValue.UserLogin;
           decimal CreditAmount = CreditValue.CreditAmount;
+
           await _repo.Credit(UserLogin, CreditAmount);
+
           return StatusCode(201);
         }
     }

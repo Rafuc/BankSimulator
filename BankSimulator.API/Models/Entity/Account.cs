@@ -22,7 +22,6 @@ namespace BankSimulator.API.Models
         public decimal Cash { get; set; }
 
         public int? IdTH { get; set; }
-
         public virtual TransactionHistory TransactionHistorys { get; set; }
     }
 }

@@ -45,7 +45,6 @@ namespace BankSimulator.API.Controllers
             };
 
             var createdAccount = await _repo.Register(accountToCreate, accountDtos.Password);
-
             return StatusCode(201);
         }
     }

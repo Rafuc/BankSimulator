@@ -23,6 +23,7 @@ namespace BankSimulator.API.Data
                 if (user.Login == UserLogin)
                     user.Cash = user.Cash + CreditAmount; 
             }
+
             await _context.SaveChangesAsync();
         }
 
