@@ -16,9 +16,19 @@ namespace BankSimulator.API.Data
             _context = context;
         }
 
+        public async Task Credit(string UserLogin, decimal CreditAmount)
+        {
+            foreach (var user in _context.Accounts)
+            {
+                if (user.Login == UserLogin)
+                    user.Cash = user.Cash + CreditAmount; 
+            }
+            await _context.SaveChangesAsync();
+        }
+
         public async Task Transfer(string recivingUser, string sendingUser, decimal cash)
         {
-            foreach(var user in _context.Accounts)
+            foreach (var user in _context.Accounts)
             {
                 if (user.Login == sendingUser)
                     user.Cash -= cash;
