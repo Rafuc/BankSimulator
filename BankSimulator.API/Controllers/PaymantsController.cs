@@ -34,5 +34,14 @@ namespace BankSimulator.API.Controllers
 
             return StatusCode(201);        
         }
+
+        [HttpPost("credit")]
+        public async Task<IActionResult> Credit(CreditParametersDtos CreditValue) 
+        {
+          string UserLogin = CreditValue.UserLogin;
+          decimal CreditAmount = CreditValue.CreditAmount;
+          await _repo.Credit(UserLogin, CreditAmount);
+          return StatusCode(201);
+        }
     }
 }
