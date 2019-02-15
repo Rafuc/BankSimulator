@@ -25,23 +25,31 @@ namespace BankSimulator.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Birthdate");
+
+                    b.Property<decimal>("Cash");
+
+                    b.Property<string>("Email");
+
                     b.Property<int?>("IdTH");
 
-                    b.Property<int?>("IdUserInfo");
+                    b.Property<string>("LiveAddress");
 
-                    b.Property<int?>("IdWealth");
+                    b.Property<string>("Login");
 
-                    b.Property<string>("login");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("password");
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
+
+                    b.Property<int>("PhoneNumber");
+
+                    b.Property<string>("Surname");
 
                     b.HasKey("IdUser");
 
                     b.HasIndex("IdTH");
-
-                    b.HasIndex("IdUserInfo");
-
-                    b.HasIndex("IdWealth");
 
                     b.ToTable("Accounts");
                 });
@@ -62,54 +70,14 @@ namespace BankSimulator.API.Migrations
 
                     b.HasKey("IdTH");
 
-                    b.ToTable("transactionHistories");
-                });
-
-            modelBuilder.Entity("BankSimulator.API.Models.User_Info", b =>
-                {
-                    b.Property<int>("IdUserInfo")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Birthdate");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("LiveAddress");
-
-                    b.Property<int>("PhoneNumber");
-
-                    b.HasKey("IdUserInfo");
-
-                    b.ToTable("UserInfo");
-                });
-
-            modelBuilder.Entity("BankSimulator.API.Models.Wealth", b =>
-                {
-                    b.Property<int>("IdWealth")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("Cash");
-
-                    b.HasKey("IdWealth");
-
-                    b.ToTable("Wealths");
+                    b.ToTable("TransactionHistories");
                 });
 
             modelBuilder.Entity("BankSimulator.API.Models.Account", b =>
                 {
-                    b.HasOne("BankSimulator.API.Models.TransactionHistory", "TransactionHistory")
+                    b.HasOne("BankSimulator.API.Models.TransactionHistory", "TransactionHistorys")
                         .WithMany()
                         .HasForeignKey("IdTH");
-
-                    b.HasOne("BankSimulator.API.Models.User_Info", "User_Info")
-                        .WithMany()
-                        .HasForeignKey("IdUserInfo");
-
-                    b.HasOne("BankSimulator.API.Models.Wealth", "Wealth")
-                        .WithMany()
-                        .HasForeignKey("IdWealth");
                 });
 #pragma warning restore 612, 618
         }
