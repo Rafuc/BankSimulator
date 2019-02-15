@@ -19,7 +19,7 @@ namespace BankSimulator.API.Controllers
             _repo = repo;
         }
 
-        [HttpPost("Transfer")]
+        [HttpPost("transfer")]
         public async Task<IActionResult> Transfer(TransferDataDtos sendingData)
         {
             decimal cash = sendingData.Cash;
@@ -34,7 +34,8 @@ namespace BankSimulator.API.Controllers
 
             return StatusCode(201);        
         }
-        [HttpPost("Credit")]
+
+        [HttpPost("credit")]
         public async Task<IActionResult> Credit(CreditParametersDtos CreditValue) 
         {
           string UserLogin = CreditValue.UserLogin;
