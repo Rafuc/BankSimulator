@@ -33,6 +33,7 @@ namespace BankSimulator.API
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IPaymantsRepository, PaymantsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
