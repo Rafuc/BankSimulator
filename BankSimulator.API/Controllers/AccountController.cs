@@ -19,12 +19,6 @@ namespace BankSimulator.API.Controllers
             _repo = repo;
         }
 
-        [HttpGet]
-        public int liczba()
-        {
-            return 300;
-        }
-
         [HttpPost("register")]
         public async Task<IActionResult> Register(AccountDtos accountDtos)
         {
@@ -45,7 +39,6 @@ namespace BankSimulator.API.Controllers
             };
 
             var createdAccount = await _repo.Register(accountToCreate, accountDtos.Password);
-
             return StatusCode(201);
         }
     }

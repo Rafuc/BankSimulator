@@ -23,7 +23,21 @@ namespace BankSimulator.API.Data
                 if (user.Login == UserLogin)
                     user.Cash = user.Cash + CreditAmount; 
             }
+
             await _context.SaveChangesAsync();
+        }
+
+        public Task<decimal> ReturnCurrentCash(string userLogin)
+        {
+            foreach (var user in _context.Accounts)
+            {
+                if(user.Login == userLogin)
+                {
+                    return Task.FromResult(user.Cash);
+                }
+            }
+
+            return null;
         }
 
         public async Task Transfer(string recivingUser, string sendingUser, decimal cash)
