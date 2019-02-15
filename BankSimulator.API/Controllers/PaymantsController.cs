@@ -22,16 +22,12 @@ namespace BankSimulator.API.Controllers
         [HttpPost("transfer")]
         public async Task<IActionResult> Transfer(TransferDataDtos sendingData)
         {
-            decimal cash = sendingData.Cash;
-            string recivingUser = sendingData.recivingUser;
-            string sendingUser = sendingData.sendingUser;
-
-            bool userExist = await _repo.UserExists(recivingUser);
+            bool userExist = await _repo.UserExists(sendingData.RecivingUser);
 
             if (!userExist)
                 BadRequest("This user don't exists");
 
-            await _repo.Transfer(recivingUser, sendingUser, cash);
+            await _repo.Transfer(sendingData.RecivingUser, sendingData.SendingUser, sendingData.Cash);
 
             return StatusCode(201);        
         }
@@ -39,12 +35,17 @@ namespace BankSimulator.API.Controllers
         [HttpPost("credit")]
         public async Task<IActionResult> Credit(CreditParametersDtos CreditValue) 
         {
-          string UserLogin = CreditValue.UserLogin;
-          decimal CreditAmount = CreditValue.CreditAmount;
-
-          await _repo.Credit(UserLogin, CreditAmount);
+          await _repo.Credit(CreditValue.UserLogin, CreditValue.CreditAmount);
 
           return StatusCode(201);
+        }
+
+        [HttpGet("currentlyCash")]
+        public async Task<IActionResult> CurrentlyCash(CheckMoney user)
+        {
+            var cash = await _repo.ReturnCurrentCash(user.UserName);
+
+            return Ok(cash);
         }
     }
 }

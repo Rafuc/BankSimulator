@@ -8,7 +8,7 @@ namespace BankSimulator.API.Dtos
     public class TransferDataDtos
     {
         public decimal Cash { get; set; }
-        public string recivingUser { get; set; }
-        public string sendingUser { get; set; }
+        public string RecivingUser { get; set; }
+        public string SendingUser { get; set; }
     }
 }
