@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using BankSimulator.API.Data;
+using BankSimulator.API.Dtos;
+using BankSimulator.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,19 +12,41 @@ namespace BankSimulator.API.Controllers
     [ApiController]
     public class AccountController : Controller
     {
-        private readonly DataContext _dataContext;
+        private readonly IAuthRepository _repo;
 
-        public AccountController(DataContext datacontext)
+        public AccountController(IAuthRepository repo)
         {
-            _dataContext = datacontext;
+            _repo = repo;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAccounts()
+        public int liczba()
         {
-            var accounts = await _dataContext.Accounts.ToListAsync();
+            return 300;
+        }
 
-            return Ok(accounts);
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(AccountDtos accountDtos)
+        {
+            accountDtos.Login = accountDtos.Login.ToLower();
+
+            if (await _repo.UserExists(accountDtos.Login))
+                return BadRequest("Username already exists");
+
+            var accountToCreate = new Account
+            {
+                Login = accountDtos.Login,
+                Birthdate = accountDtos.Birthdate,
+                Email = accountDtos.Email,
+                LiveAddress = accountDtos.Email,
+                PhoneNumber = accountDtos.PhoneNumber,
+                Name = accountDtos.Name,
+                Surname = accountDtos.Surname
+            };
+
+            var createdAccount = await _repo.Register(accountToCreate, accountDtos.Password);
+
+            return StatusCode(201);
         }
     }
 }
