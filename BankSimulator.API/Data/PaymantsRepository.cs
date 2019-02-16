@@ -40,10 +40,13 @@ namespace BankSimulator.API.Data
             return null;
         }
 
-        public async Task Transfer(string recivingUser, string sendingUser, decimal cash)
+        public async Task<string> Transfer(string recivingUser, string sendingUser, decimal cash)
         {
             foreach (var user in _context.Accounts)
             {
+                if (user.Cash < cash && sendingUser == user.Login)
+                    return "You don't have enough money";
+
                 if (user.Login == sendingUser)
                     user.Cash -= cash;
 
@@ -52,6 +55,7 @@ namespace BankSimulator.API.Data
             }
 
             await _context.SaveChangesAsync();
+            return "Succesfully";
         }
 
         public async Task<bool> UserExists(string recivingUser)

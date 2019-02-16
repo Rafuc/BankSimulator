@@ -25,22 +25,25 @@ namespace BankSimulator.API.Controllers
             bool userExist = await _repo.UserExists(sendingData.RecivingUser);
             
             if(sendingData.Cash <= 0)
-                BadRequest("You can't send less money than 1 PLN");
-
+                return BadRequest("You can't send less money than 1 PLN");
+                
             if (!userExist)
-                BadRequest("This user don't exists");
+                return BadRequest("This user don't exists");
 
-            await _repo.Transfer(sendingData.RecivingUser, sendingData.SendingUser, sendingData.Cash);
+            if (sendingData.RecivingUser == sendingData.SendingUser)
+                return BadRequest("You can't send to yourself");
 
-            return StatusCode(201);        
+            string endingStatus = await _repo.Transfer(sendingData.RecivingUser, sendingData.SendingUser, sendingData.Cash);
+
+            return Ok(endingStatus);        
         }
 
         [HttpPost("credit")]
         public async Task<IActionResult> Credit(CreditParametersDtos CreditValue) 
         {
-          await _repo.Credit(CreditValue.UserLogin, CreditValue.CreditAmount);
+            await _repo.Credit(CreditValue.UserLogin, CreditValue.CreditAmount);
 
-          return StatusCode(201);
+            return StatusCode(201);
         }
 
         [HttpGet("currentlyCash")]
