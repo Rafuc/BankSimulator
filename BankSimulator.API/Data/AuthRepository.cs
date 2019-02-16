@@ -73,6 +73,6 @@ namespace BankSimulator.API.Data
                 return true;
 
             return false;
-        }
-    }
+        } 
+    }  
 }
