@@ -54,20 +54,36 @@ namespace BankSimulator.API.Data
             return null;
         }
 
-        public async Task<string> Transfer(string recivingUser, string sendingUser, decimal cash)
+        public async Task<string> Transfer(string recivingUser, string sendingUser, decimal cash, string title)
         {
+            decimal moneyBefore = 0M;
+            int userID = 0;
+
             foreach (var user in _context.Accounts)
             {
                 if (user.Cash < cash && sendingUser == user.Login)
                     return "You don't have enough money";
 
                 if (user.Login == sendingUser)
+                {
+                    moneyBefore = user.Cash;
                     user.Cash -= cash;
+                    userID = user.IdUser;
+                }
 
                 if (user.Login == recivingUser)
                     user.Cash += cash;
             }
 
+            var transactionHistory = new TransactionHistory
+            {
+                MoneyBefore = moneyBefore,
+                MoneyAfter = moneyBefore - cash,
+                TitleOfTransaction = title,
+                IdUser = userID
+            };
+
+            await _context.AddAsync(transactionHistory);
             await _context.SaveChangesAsync();
             return "Succesfully";
         }

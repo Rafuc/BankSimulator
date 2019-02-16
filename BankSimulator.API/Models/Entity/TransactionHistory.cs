@@ -13,6 +13,6 @@ namespace BankSimulator.API.Models
         public decimal MoneyBefore { get; set; }
         public decimal MoneyAfter { get; set; }
         public string TitleOfTransaction { get; set; }
-        public int IdTransactionReceiver { get; set; }
+        public int IdUser { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace BankSimulator.API.Data
 {
     public interface IPaymantsRepository
     {
-        Task<string> Transfer(string recivingUser, string sendingUser, decimal cash);
+        Task<string> Transfer(string recivingUser, string sendingUser, decimal cash, string title);
 
         Task<bool> UserExists(string recivingUser);
 

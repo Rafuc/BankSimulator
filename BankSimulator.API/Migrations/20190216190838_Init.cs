@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BankSimulator.API.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,22 +27,6 @@ namespace BankSimulator.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TransactionHistories",
-                columns: table => new
-                {
-                    IdTH = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    MoneyBefore = table.Column<decimal>(nullable: false),
-                    MoneyAfter = table.Column<decimal>(nullable: false),
-                    TitleOfTransaction = table.Column<string>(nullable: true),
-                    IdTransactionReceiver = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TransactionHistories", x => x.IdTH);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Accounts",
                 columns: table => new
                 {
@@ -58,8 +42,7 @@ namespace BankSimulator.API.Migrations
                     PhoneNumber = table.Column<int>(nullable: false),
                     LiveAddress = table.Column<string>(nullable: true),
                     Cash = table.Column<decimal>(nullable: false),
-                    CreditHistoriesIDCredit = table.Column<int>(nullable: true),
-                    TransactionHistorysIdTH = table.Column<int>(nullable: true)
+                    CreditHistoriesIDCredit = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,12 +53,28 @@ namespace BankSimulator.API.Migrations
                         principalTable: "CreditHistory",
                         principalColumn: "IDCredit",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TransactionHistories",
+                columns: table => new
+                {
+                    IdTH = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MoneyBefore = table.Column<decimal>(nullable: false),
+                    MoneyAfter = table.Column<decimal>(nullable: false),
+                    TitleOfTransaction = table.Column<string>(nullable: true),
+                    IdUser = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransactionHistories", x => x.IdTH);
                     table.ForeignKey(
-                        name: "FK_Accounts_TransactionHistories_TransactionHistorysIdTH",
-                        column: x => x.TransactionHistorysIdTH,
-                        principalTable: "TransactionHistories",
-                        principalColumn: "IdTH",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_TransactionHistories_Accounts_IdUser",
+                        column: x => x.IdUser,
+                        principalTable: "Accounts",
+                        principalColumn: "IdUser",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -84,21 +83,22 @@ namespace BankSimulator.API.Migrations
                 column: "CreditHistoriesIDCredit");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Accounts_TransactionHistorysIdTH",
-                table: "Accounts",
-                column: "TransactionHistorysIdTH");
+                name: "IX_TransactionHistories_IdUser",
+                table: "TransactionHistories",
+                column: "IdUser",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "TransactionHistories");
+
+            migrationBuilder.DropTable(
                 name: "Accounts");
 
             migrationBuilder.DropTable(
                 name: "CreditHistory");
-
-            migrationBuilder.DropTable(
-                name: "TransactionHistories");
         }
     }
 }

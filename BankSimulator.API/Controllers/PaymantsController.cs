@@ -33,7 +33,7 @@ namespace BankSimulator.API.Controllers
             if (sendingData.RecivingUser == sendingData.SendingUser)
                 return BadRequest("You can't send to yourself");
 
-            string endingStatus = await _repo.Transfer(sendingData.RecivingUser, sendingData.SendingUser, sendingData.Cash);
+            string endingStatus = await _repo.Transfer(sendingData.RecivingUser, sendingData.SendingUser, sendingData.Cash, sendingData.TitleOfTransaction);
 
             return Ok(endingStatus);        
         }

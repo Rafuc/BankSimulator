@@ -10,5 +10,6 @@ namespace BankSimulator.API.Dtos
         public decimal Cash { get; set; }
         public string RecivingUser { get; set; }
         public string SendingUser { get; set; }
+        public string TitleOfTransaction { get; set; }
     }
 }

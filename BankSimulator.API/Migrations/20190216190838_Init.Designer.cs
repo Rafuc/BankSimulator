@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankSimulator.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190216182952_initialCreate")]
-    partial class initialCreate
+    [Migration("20190216190838_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,13 +49,9 @@ namespace BankSimulator.API.Migrations
 
                     b.Property<string>("Surname");
 
-                    b.Property<int?>("TransactionHistorysIdTH");
-
                     b.HasKey("IdUser");
 
                     b.HasIndex("CreditHistoriesIDCredit");
-
-                    b.HasIndex("TransactionHistorysIdTH");
 
                     b.ToTable("Accounts");
                 });
@@ -89,7 +85,7 @@ namespace BankSimulator.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("IdTransactionReceiver");
+                    b.Property<int>("IdUser");
 
                     b.Property<decimal>("MoneyAfter");
 
@@ -99,6 +95,9 @@ namespace BankSimulator.API.Migrations
 
                     b.HasKey("IdTH");
 
+                    b.HasIndex("IdUser")
+                        .IsUnique();
+
                     b.ToTable("TransactionHistories");
                 });
 
@@ -107,10 +106,14 @@ namespace BankSimulator.API.Migrations
                     b.HasOne("BankSimulator.API.Models.Entity.CreditHistory", "CreditHistories")
                         .WithMany()
                         .HasForeignKey("CreditHistoriesIDCredit");
+                });
 
-                    b.HasOne("BankSimulator.API.Models.TransactionHistory", "TransactionHistorys")
-                        .WithMany()
-                        .HasForeignKey("TransactionHistorysIdTH");
+            modelBuilder.Entity("BankSimulator.API.Models.TransactionHistory", b =>
+                {
+                    b.HasOne("BankSimulator.API.Models.Account")
+                        .WithOne("TransactionHistorys")
+                        .HasForeignKey("BankSimulator.API.Models.TransactionHistory", "IdUser")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
