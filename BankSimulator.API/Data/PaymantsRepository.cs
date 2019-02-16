@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BankSimulator.API.Models;
+using BankSimulator.API.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankSimulator.API.Data
@@ -16,14 +17,27 @@ namespace BankSimulator.API.Data
             _context = context;
         }
 
-        public async Task Credit(string UserLogin, decimal CreditAmount)
+        public async Task Credit(int id, decimal CreditAmount, string date, int rateOfIntrest, string creditPaymantTime, decimal remainingCredit)
         {
+            var createCreditHistory = new CreditHistory
+            {
+                IDPersonTakinCredit = id,
+                CreditAmmount = CreditAmount,
+                Date = date,
+                RateOfIntrest = rateOfIntrest,
+                CreditPaymentTime = creditPaymantTime,
+                RemainingCredit = remainingCredit
+            };
+
             foreach (var user in _context.Accounts)
             {
-                if (user.Login == UserLogin)
-                    user.Cash = user.Cash + CreditAmount; 
+                if (user.IdUser == id)
+                {
+                    user.Cash = user.Cash + CreditAmount;
+                }                 
             }
 
+            await _context.AddAsync(createCreditHistory);
             await _context.SaveChangesAsync();
         }
 

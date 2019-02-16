@@ -15,5 +15,6 @@ namespace BankSimulator.API.Models.Entity
         public int RateOfIntrest { get; set; }
         public string CreditPaymentTime { get; set; }
         public decimal RemainingCredit { get; set; }
+        public int IDPersonTakinCredit { get; set; }
     }
 }

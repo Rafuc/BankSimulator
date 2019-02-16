@@ -24,8 +24,8 @@ namespace BankSimulator.API.Controllers
         { 
             accountDtos.Login = accountDtos.Login.ToLower();
 
-           // if (await _repo.UserExists(accountDtos.Login))
-               // return BadRequest("Username already exists");
+            if (await _repo.UserExists(accountDtos.Login))
+                return BadRequest("Username already exists");
 
             var accountToCreate = new Account
             {

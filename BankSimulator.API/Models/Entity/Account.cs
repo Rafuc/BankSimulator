@@ -22,8 +22,6 @@ namespace BankSimulator.API.Models
         public string LiveAddress { get; set; }
         public decimal Cash { get; set; }
         
-        public int? IdTH { get; set; } 
-        public int? IDCredit { get; set; }
         public virtual CreditHistory CreditHistories { get; set; }
         public virtual TransactionHistory TransactionHistorys { get; set; }
     }
