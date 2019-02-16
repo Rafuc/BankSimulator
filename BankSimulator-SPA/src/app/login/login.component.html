@@ -1,3 +1,28 @@
-<p>
-  login works!
-</p>
+  <div style="align-content: center;">
+  <div class="lg">
+
+      <button mat-button id="reg">Register</button>
+      <br>
+      <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Login</mat-label>
+      <input matInput placeholder="Placeholder">
+    </mat-form-field>
+      <br>
+
+        <mat-form-field>
+            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" class="Textbox">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+      <br>
+        <button mat-stroked-button color="grey">Login</button>
+      <br>
+        <button mat-button>Forgot Password?</button>
+  </div>
+  <br>
+    <div class= "info">
+      <p>The interest rate on our bank amounts to as much as 10% per annum!</p>
+
+
+  </div>
+</div>
