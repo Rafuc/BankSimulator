@@ -23,6 +23,9 @@ namespace BankSimulator.API.Controllers
         public async Task<IActionResult> Transfer(TransferDataDtos sendingData)
         {
             bool userExist = await _repo.UserExists(sendingData.RecivingUser);
+            
+            if(sendingData.Cash <= 0)
+                BadRequest("You can't send less money than 1 PLN");
 
             if (!userExist)
                 BadRequest("This user don't exists");
