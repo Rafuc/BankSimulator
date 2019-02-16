@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankSimulator.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190215095351_AddedNameAndSurname")]
-    partial class AddedNameAndSurname
+    [Migration("20190216190838_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,9 @@ namespace BankSimulator.API.Migrations
 
                     b.Property<decimal>("Cash");
 
-                    b.Property<string>("Email");
+                    b.Property<int?>("CreditHistoriesIDCredit");
 
-                    b.Property<int?>("IdTH");
+                    b.Property<string>("Email");
 
                     b.Property<string>("LiveAddress");
 
@@ -51,9 +51,32 @@ namespace BankSimulator.API.Migrations
 
                     b.HasKey("IdUser");
 
-                    b.HasIndex("IdTH");
+                    b.HasIndex("CreditHistoriesIDCredit");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("BankSimulator.API.Models.Entity.CreditHistory", b =>
+                {
+                    b.Property<int>("IDCredit")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("CreditAmmount");
+
+                    b.Property<string>("CreditPaymentTime");
+
+                    b.Property<string>("Date");
+
+                    b.Property<int>("IDPersonTakinCredit");
+
+                    b.Property<int>("RateOfIntrest");
+
+                    b.Property<decimal>("RemainingCredit");
+
+                    b.HasKey("IDCredit");
+
+                    b.ToTable("CreditHistory");
                 });
 
             modelBuilder.Entity("BankSimulator.API.Models.TransactionHistory", b =>
@@ -62,7 +85,7 @@ namespace BankSimulator.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("IdTransactionReceiver");
+                    b.Property<int>("IdUser");
 
                     b.Property<decimal>("MoneyAfter");
 
@@ -72,14 +95,25 @@ namespace BankSimulator.API.Migrations
 
                     b.HasKey("IdTH");
 
+                    b.HasIndex("IdUser")
+                        .IsUnique();
+
                     b.ToTable("TransactionHistories");
                 });
 
             modelBuilder.Entity("BankSimulator.API.Models.Account", b =>
                 {
-                    b.HasOne("BankSimulator.API.Models.TransactionHistory", "TransactionHistorys")
+                    b.HasOne("BankSimulator.API.Models.Entity.CreditHistory", "CreditHistories")
                         .WithMany()
-                        .HasForeignKey("IdTH");
+                        .HasForeignKey("CreditHistoriesIDCredit");
+                });
+
+            modelBuilder.Entity("BankSimulator.API.Models.TransactionHistory", b =>
+                {
+                    b.HasOne("BankSimulator.API.Models.Account")
+                        .WithOne("TransactionHistorys")
+                        .HasForeignKey("BankSimulator.API.Models.TransactionHistory", "IdUser")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

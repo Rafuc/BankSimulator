@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankSimulator.API.Models.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,8 +21,8 @@ namespace BankSimulator.API.Models
         public int PhoneNumber { get; set; }
         public string LiveAddress { get; set; }
         public decimal Cash { get; set; }
-
-        public int? IdTH { get; set; }
+        
+        public virtual CreditHistory CreditHistories { get; set; }
         public virtual TransactionHistory TransactionHistorys { get; set; }
     }
 }

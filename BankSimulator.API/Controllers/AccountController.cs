@@ -21,7 +21,7 @@ namespace BankSimulator.API.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(AccountDtos accountDtos)
-        {
+        { 
             accountDtos.Login = accountDtos.Login.ToLower();
 
             if (await _repo.UserExists(accountDtos.Login))
