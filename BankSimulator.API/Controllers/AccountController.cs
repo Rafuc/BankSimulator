@@ -41,5 +41,12 @@ namespace BankSimulator.API.Controllers
             var createdAccount = await _repo.Register(accountToCreate, accountDtos.Password);
             return StatusCode(201);
         }
+
+        [HttpGet("login")]
+        public async Task<IActionResult> Login(LogIn login)
+        {
+            var user = await _repo.Login(login.Login, login.Password);
+            return Ok(user);
+        }
     }
 }
