@@ -1,4 +1,5 @@
 ﻿using BankSimulator.API.Models;
+using BankSimulator.API.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace BankSimulator.API.Data
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<TransactionHistory> TransactionHistories { get; set; }
+        public DbSet<CreditHistory> CreditHistories { get; set; }
     }
 }

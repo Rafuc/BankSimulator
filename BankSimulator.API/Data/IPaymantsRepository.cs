@@ -12,7 +12,7 @@ namespace BankSimulator.API.Data
 
         Task<bool> UserExists(string recivingUser);
 
-        Task Credit(int id,decimal CreditAmount,string date,int rateOfIntrest,string creditPaymantTime,decimal remainingCredit);
+        Task<string> Credit(int id,decimal CreditAmount,string date,int rateOfIntrest,string creditPaymantTime,decimal remainingCredit);
 
         Task<decimal> ReturnCurrentCash(string userLogin);
     }
