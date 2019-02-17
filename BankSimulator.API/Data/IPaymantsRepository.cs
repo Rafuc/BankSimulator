@@ -1,4 +1,5 @@
-﻿using BankSimulator.API.Models;
+﻿using BankSimulator.API.Dtos;
+using BankSimulator.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace BankSimulator.API.Data
         Task<string> Credit(int id,decimal CreditAmount,string date,int rateOfIntrest,string creditPaymantTime,decimal remainingCredit);
 
         Task<decimal> ReturnCurrentCash(string userLogin);
+
+        Task<string> RepaymantCredit(RepaymantCredit repaymantCredit);
     }
 }

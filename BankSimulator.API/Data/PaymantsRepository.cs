@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BankSimulator.API.Dtos;
 using BankSimulator.API.Models;
 using BankSimulator.API.Models.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ namespace BankSimulator.API.Data
                     Date = date,
                     RateOfIntrest = rateOfIntrest,
                     CreditPaymentTime = creditPaymantTime,
-                    RemainingCredit = remainingCredit
+                    RemainingCredit = (CreditAmount * rateOfIntrest / 100) + CreditAmount
                 };
 
 
@@ -61,6 +62,18 @@ namespace BankSimulator.API.Data
             }
 
             return "You can't take credit";
+        }
+
+        public async Task<string> RepaymantCredit(RepaymantCredit repaymantCredit)
+        {
+            foreach(var user in _context.CreditHistories.Where(x => x.IDPersonTakinCredit == repaymantCredit.Id))
+            {
+                user.RemainingCredit -= repaymantCredit.ReturnMoney;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return "Succesfully";
         }
 
         public Task<decimal> ReturnCurrentCash(string userLogin)
