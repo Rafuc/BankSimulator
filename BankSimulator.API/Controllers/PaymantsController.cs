@@ -39,12 +39,12 @@ namespace BankSimulator.API.Controllers
         }
 
         [HttpPost("credit")]
-        public async Task<IActionResult> Credit(CreditParametersDtos CreditValue) 
+        public async Task<IActionResult> Credit(CreditParametersDtos CreditValue)
         {
-            await _repo.Credit(CreditValue.UserId,CreditValue.CreditAmount,CreditValue.Date,CreditValue.RateOfIntrest,CreditValue.CreditPaymantTime,
+            string takingValue = await _repo.Credit(CreditValue.UserId,CreditValue.CreditAmount,CreditValue.Date,CreditValue.RateOfIntrest,CreditValue.CreditPaymantTime,
                 CreditValue.RemainingCredit);
 
-            return StatusCode(201);
+            return Ok(takingValue);
         }
 
         [HttpGet("currentlyCash")]

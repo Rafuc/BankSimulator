@@ -17,28 +17,50 @@ namespace BankSimulator.API.Data
             _context = context;
         }
 
-        public async Task Credit(int id, decimal CreditAmount, string date, int rateOfIntrest, string creditPaymantTime, decimal remainingCredit)
+        public async Task<string> Credit(int id, decimal CreditAmount, string date, int rateOfIntrest, string creditPaymantTime, decimal remainingCredit)
         {
-            var createCreditHistory = new CreditHistory
-            {
-                IDPersonTakinCredit = id,
-                CreditAmmount = CreditAmount,
-                Date = date,
-                RateOfIntrest = rateOfIntrest,
-                CreditPaymentTime = creditPaymantTime,
-                RemainingCredit = remainingCredit
-            };
+            bool canTakingCredit = true;
 
-            foreach (var user in _context.Accounts)
+            foreach(var history in _context.CreditHistories)
             {
-                if (user.IdUser == id)
+                if(id == history.IDPersonTakinCredit)
                 {
-                    user.Cash = user.Cash + CreditAmount;
-                }                 
+                    canTakingCredit = false;
+                }
+                else
+                {
+                    canTakingCredit = true;
+                }
             }
 
-            await _context.AddAsync(createCreditHistory);
-            await _context.SaveChangesAsync();
+            if (canTakingCredit)
+            {
+                var createCreditHistory = new CreditHistory
+                {
+                    IDPersonTakinCredit = id,
+                    CreditAmmount = CreditAmount,
+                    Date = date,
+                    RateOfIntrest = rateOfIntrest,
+                    CreditPaymentTime = creditPaymantTime,
+                    RemainingCredit = remainingCredit
+                };
+
+
+                foreach (var user in _context.Accounts)
+                {
+                    if (user.IdUser == id)
+                    {
+                        user.Cash = user.Cash + CreditAmount;
+                    }
+                }
+
+                await _context.AddAsync(createCreditHistory);
+                await _context.SaveChangesAsync();
+
+                return "Succesfully";
+            }
+
+            return "You can't take credit";
         }
 
         public Task<decimal> ReturnCurrentCash(string userLogin)
