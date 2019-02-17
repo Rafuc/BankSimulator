@@ -23,10 +23,10 @@ namespace BankSimulator.API.Controllers
         public async Task<IActionResult> Transfer(TransferDataDtos sendingData)
         {
             bool userExist = await _repo.UserExists(sendingData.RecivingUser);
-            
-            if(sendingData.Cash <= 0)
+
+            if (sendingData.Cash <= 0)
                 return BadRequest("You can't send less money than 1 PLN");
-                
+
             if (!userExist)
                 return BadRequest("This user don't exists");
 
@@ -35,24 +35,32 @@ namespace BankSimulator.API.Controllers
 
             string endingStatus = await _repo.Transfer(sendingData.RecivingUser, sendingData.SendingUser, sendingData.Cash, sendingData.TitleOfTransaction);
 
-            return Ok(endingStatus);        
+            return Ok(endingStatus);
         }
 
         [HttpPost("credit")]
         public async Task<IActionResult> Credit(CreditParametersDtos CreditValue)
         {
-            string takingValue = await _repo.Credit(CreditValue.UserId,CreditValue.CreditAmount,CreditValue.Date,CreditValue.RateOfIntrest,CreditValue.CreditPaymantTime,
+            string takingValue = await _repo.Credit(CreditValue.UserId, CreditValue.CreditAmount, CreditValue.Date, CreditValue.RateOfIntrest, CreditValue.CreditPaymantTime,
                 CreditValue.RemainingCredit);
 
             return Ok(takingValue);
         }
 
-        [HttpGet("currentlyCash")]
+        [HttpGet("currentlycash")]
         public async Task<IActionResult> CurrentlyCash(CheckMoney user)
         {
             var cash = await _repo.ReturnCurrentCash(user.UserName);
 
             return Ok(cash);
+        }
+
+        [HttpPost("repaymantcredit")]
+        public async Task<IActionResult> RepaymantCredit(RepaymantCredit repaymantCredit)
+        {
+            var repay = await _repo.RepaymantCredit(repaymantCredit);
+
+            return Ok(repay);
         }
     }
 }
